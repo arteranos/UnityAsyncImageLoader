@@ -4,7 +4,7 @@ using Unity.Collections.LowLevel.Unsafe;
 using Unity.Jobs;
 
 public partial class AsyncImageLoader {
-  [BurstCompile(CompileSynchronously = true)]
+  [BurstCompile(CompileSynchronously = true, DisableSafetyChecks = true)]
   struct TransferImageToTextureJob : IJobParallelFor {
     public int bytesPerLine;
     public int bytesPerScanline;
@@ -23,7 +23,7 @@ public partial class AsyncImageLoader {
     }
   }
 
-  [BurstCompile(CompileSynchronously = true)]
+  [BurstCompile(CompileSynchronously = true, DisableSafetyChecks = true)]
   struct TransferBGR24ImageToRGB24TextureJob : IJobParallelFor {
     public int bytesPerScanline;
     public int width;
@@ -47,7 +47,7 @@ public partial class AsyncImageLoader {
     }
   }
 
-  [BurstCompile(CompileSynchronously = true)]
+  [BurstCompile(CompileSynchronously = true, DisableSafetyChecks = true)]
   struct TransferBGRA32ImageToRGBA32TextureJob : IJobParallelFor {
     public int bytesPerScanline;
     public int width;
@@ -72,7 +72,7 @@ public partial class AsyncImageLoader {
     }
   }
 
-  [BurstCompile(CompileSynchronously = true)]
+  [BurstCompile(CompileSynchronously = true, DisableSafetyChecks = true)]
   struct TransferRGBFloatImageToRGBAFloatTextureJob : IJobParallelFor {
     public int bytesPerScanline;
     public int width;
