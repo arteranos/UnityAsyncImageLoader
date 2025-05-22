@@ -208,8 +208,13 @@ public static partial class AsyncImageLoader {
       var bytesPerLine = FreeImage.GetLine(_bitmap);
       var bytesPerScanline = FreeImage.GetPitch(_bitmap);
 
-      if (FreeImage.IsLittleEndian() && _imageType == FreeImage.Type.FIT_BITMAP) {
-        switch (_imageBitsPerPixel) {
+       // CHANGED: Wrong compilation switch ( FREEIMAGE_COLORORDER ) on Linux .so plugin
+       // ( see https://stackoverflow.com/questions/31103121/why-freeimage-loads-image-in-bgr-format )
+       // Maybe I have to recompile all of them, and ditch IsLittleEndian() to make it really endian agnostic
+       if (FreeImage.IsLittleEndian() && !RuntimeInformation.IsOSPlatform(OSPlatform.Linux) && _imageType == FreeImage.Type.FIT_BITMAP)
+       {
+        switch (_imageBitsPerPixel)
+        {
           case 24:
             var transferBGR24ImageToRGB24TextureJob = new TransferBGR24ImageToRGB24TextureJob {
               bytesPerScanline = bytesPerScanline,
